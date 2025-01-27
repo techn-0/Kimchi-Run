@@ -1,10 +1,11 @@
+using System;
 using UnityEngine;
 
 
 public class Player : MonoBehaviour
 {
     [Header("Settings")]
-    public float juumpForce;
+    public float jumpForce;
 
 
     [Header("References")]
@@ -15,7 +16,7 @@ public class Player : MonoBehaviour
     private bool isGrounded = true;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    public int lives = 3;
+    // public int lives = 3;
     public bool isInvincible = false;
 
     void Start()
@@ -29,7 +30,7 @@ public class Player : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space) && isGrounded){
             // PlayerRigidBody.linearVelocityX = 10;
             // PlayerRigidBody.linearVelocityY = 20;
-            PlayerRigidBody.AddForceY(juumpForce, ForceMode2D.Impulse);
+            PlayerRigidBody.AddForceY(jumpForce, ForceMode2D.Impulse);
             isGrounded = false;
             PlayerAnimator.SetInteger("state", 1);
         }
@@ -45,25 +46,21 @@ public class Player : MonoBehaviour
         }
     }
 
-    void KillPlayer()
+    public void KillPlayer()
     {
         PlayerCollider.enabled = false;
         PlayerAnimator.enabled = false;
-        PlayerRigidBody.AddForceY(juumpForce, ForceMode2D.Impulse);
+        PlayerRigidBody.AddForceY(jumpForce, ForceMode2D.Impulse);
     }
 
     void Hit()
     {
-        lives -= 1;
-        if(lives == 0)
-        {
-            KillPlayer();
-        }
+        GameManager.Instance.Lives -= 1;
     }
 
     void Heal()
     {
-        lives =Mathf.Min(3, lives + 1);
+        GameManager.Instance.Lives =Mathf.Min(3, GameManager.Instance.Lives + 1);
     }
 
     void StartInvinsible()

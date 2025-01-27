@@ -15,6 +15,11 @@ public class Spawner : MonoBehaviour
         Invoke("Spawn", Random.Range(minSPawnDelay, maxSPawnDelay));
     }
 
+    void OnDisable()
+    {
+        CancelInvoke();
+    }
+
     void Spawn()
     {
         var randomObject = gameObjects[Random.Range(0, gameObjects.Length)];
